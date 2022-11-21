@@ -2,8 +2,8 @@ package handler
 
 
 import ( 
-
 	"net/http"
+	"github.com/mehrdad3301/ChitChat/db"
 )
 
 func Login( 
@@ -13,7 +13,10 @@ func Login(
 	if r.Method == "GET" { 
 	generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
 	} else { 
-
+		r.ParseForm() 
+		pass := r.FormValue("password")
+		email := r.FormValue("email")
+		
 	}
 }
 
@@ -31,7 +34,13 @@ func SignUp(
 	if r.Method == "GET" { 
 		generateHTML(w, new(interface{}), "login.layout", "public.navbar", "signup")
 	} else { 
-
+		r.ParseForm() 
+		name := r.FormValue("name") 
+		pass := r.FormValue("password")
+		email := r.FormValue("email")
+	
+		db.CreateUser(name, pass, email) 
+		http.Redirect(w, r, "/login", http.StatusFound) 
 	}
 }
 
