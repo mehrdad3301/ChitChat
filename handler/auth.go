@@ -10,7 +10,11 @@ func Login(
 	w http.ResponseWriter, 
 	r *http.Request, 
 ) { 
+	if r.Method == "GET" { 
 	generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
+	} else { 
+
+	}
 }
 
 func Logout( 
@@ -24,12 +28,10 @@ func SignUp(
 	w http.ResponseWriter, 
 	r *http.Request, 
 ) { 
+	if r.Method == "GET" { 
+		generateHTML(w, new(interface{}), "login.layout", "public.navbar", "signup")
+	} else { 
 
+	}
 }
 
-func SignIn( 
-	w http.ResponseWriter, 
-	r *http.Request, 
-) { 
-
-}
