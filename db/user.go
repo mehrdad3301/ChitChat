@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 	"crypto/sha1"
+	"text/template"
+	"bytes"
 )
 
 func CreateUser(name, password, email string) (error) {  
@@ -22,7 +24,7 @@ func CreateUser(name, password, email string) (error) {
 	return nil 
 }
 
-func GetUser(email string) (*User, error) { 
+func GetUser(holder, value string) (*User, error) { 
 	queryString := `
 	select 
 		id,
@@ -32,9 +34,13 @@ func GetUser(email string) (*User, error) {
 		created_at
 	from 
 		users 
-	where email=?`
+	where {{ . }}=?`
+
+	var query bytes.Buffer 
+	t, _ := template.New("query").Parse(queryString)
+	t.Execute(&query, holder)
 	
-	rows , err := db.Query(queryString, email)
+	rows , err := db.Query(query.String(), value)
 	if err != nil { 
 		return nil, fmt.Errorf("getUser: %v", err) 
 	}

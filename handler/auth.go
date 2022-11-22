@@ -18,7 +18,7 @@ func Login(
 		r.ParseForm() 
 		pass := r.FormValue("password")
 		email := r.FormValue("email")
-		user, err := db.GetUser(email)
+		user, err := db.GetUser("email", email)
 		if err != nil { 
 			generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
 			log.Println("Login: ", err)
