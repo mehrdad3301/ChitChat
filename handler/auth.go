@@ -92,7 +92,7 @@ func deleteSession(r *http.Request) (error) {
 
 	cookie, err := r.Cookie("session_cookie")
 	if err != nil { 
-		return fmt.Errorf("checkSession: ", err)
+		return fmt.Errorf("deleteSession: ", err)
 	}	
 	err = db.DeleteSession(cookie.Value)
 	return  err 
