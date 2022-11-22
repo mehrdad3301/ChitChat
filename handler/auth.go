@@ -24,7 +24,7 @@ func Login(
 			log.Println("Login: ", err)
 		}
 
-		if !db.ValidUser(user, pass) { 
+		if !db.CheckPassword(user, pass) { 
 			generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
 			log.Println("Login: ", "wrong password")
 		} else { 

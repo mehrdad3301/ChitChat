@@ -55,7 +55,7 @@ func GetUser(email string) (*User, error) {
 		return nil, fmt.Errorf("getUser: %v", err) 
 }
 
-func ValidUser(user *User, password string) (bool) { 
+func CheckPassword(user *User, password string) (bool) { 
 	
 	if encryptPassword(password) == user.Password {
 		return true 
