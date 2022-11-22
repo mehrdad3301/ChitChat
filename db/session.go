@@ -24,3 +24,24 @@ func CreateSession(user *User) (string, error) {
 	}
 	return uuid, nil 
 } 
+
+func ValidSession(uuid string) (bool, error) { 
+
+	queryString:=`
+	select 
+		*
+	from 
+		sessions
+	where uuid=?`
+
+	rows, err := db.Query(queryString, uuid)
+	if err != nil { 
+		return false, fmt.Errorf("ValidSessoin: ", err)
+	}
+	
+	defer rows.Close() 
+	if rows.Next() { 
+		return true, nil
+	}
+	return false, nil
+}
