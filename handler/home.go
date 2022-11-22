@@ -5,7 +5,6 @@ import (
 
 	"fmt"
 	"net/http"
-	"github.com/mehrdad3301/ChitChat/db"
 )
 
 func Home( 
@@ -29,11 +28,3 @@ func Home(
 
 }
 
-func checkSession(r *http.Request) (bool, error) { 
-	cookie, err := r.Cookie("session_cookie")
-	if err != nil { 
-		return false, fmt.Errorf("checkSession: ", err)
-	}	
-	ok, err := db.ValidSession(cookie.Value)
-	return ok, err 
-}
