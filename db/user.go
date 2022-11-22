@@ -2,7 +2,6 @@ package db
 
 import ( 
 	"fmt"
-	"log"
 	"time"
 	"crypto/sha1"
 )
@@ -63,22 +62,6 @@ func CheckPassword(user *User, password string) (bool) {
 	return false
 }
 
-func getIdFromEmail(email string) (string){ 
-	queryString :=` 
-	select 
-		Id 
-	from 
-		users 
-	where 
-		email=?`
-	row := db.QueryRow(queryString, email)	
-	var id string
-	err := row.Scan(&id)
-	if err != nil {
-		log.Println("getIdFromEmail: ", err)
-	}
-	return id 
-}
 
 func encryptPassword(password string) string { 
 	encrptPass := sha1.Sum([]byte(password))
