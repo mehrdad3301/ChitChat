@@ -3,6 +3,7 @@ package handler
 
 import ( 
 	"log"
+	"fmt"
 	"net/http"
 	"github.com/mehrdad3301/ChitChat/db"
 )
@@ -48,6 +49,12 @@ func Logout(
 	r *http.Request, 
 ) { 
 
+	err := deleteSession(r)
+	if err != nil { 
+		log.Println("Logout: ", err) 	
+	}
+
+	http.Redirect(w, r, "/", http.StatusFound)
 }
 
 func SignUp( 
@@ -72,3 +79,21 @@ func SignUp(
 	}
 }
 
+func checkSession(r *http.Request) (bool, error) { 
+	cookie, err := r.Cookie("session_cookie")
+	if err != nil { 
+		return false, fmt.Errorf("checkSession: ", err)
+	}	
+	ok, err := db.ValidSession(cookie.Value)
+	return ok, err 
+}
+
+func deleteSession(r *http.Request) (error) {
+
+	cookie, err := r.Cookie("session_cookie")
+	if err != nil { 
+		return fmt.Errorf("checkSession: ", err)
+	}	
+	err = db.DeleteSession(cookie.Value)
+	return  err 
+}
