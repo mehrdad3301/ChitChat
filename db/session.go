@@ -45,3 +45,17 @@ func ValidSession(uuid string) (bool, error) {
 	}
 	return false, nil
 }
+
+func DeleteSession(uuid string) (error) { 
+	
+	queryString :=`
+	delete from 
+		sessions
+	where uuid=?`
+
+	_, err := db.Exec(queryString, uuid)
+	if err != nil { 
+		return err 
+	}
+	return nil 
+}
