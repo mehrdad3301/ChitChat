@@ -2,6 +2,7 @@ package handler
 
 
 import ( 
+	"log"
 	"net/http"
 	"github.com/mehrdad3301/ChitChat/db"
 )
@@ -11,12 +12,34 @@ func Login(
 	r *http.Request, 
 ) { 
 	if r.Method == "GET" { 
-	generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
+		generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
 	} else { 
 		r.ParseForm() 
 		pass := r.FormValue("password")
 		email := r.FormValue("email")
-		
+		user, err := db.GetUser(email)
+		if err != nil { 
+			generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
+			log.Println("Login: ", err)
+		}
+
+		if !db.ValidUser(user, pass) { 
+			generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
+			log.Println("Login: ", "wrong password")
+		} else { 
+
+		//	session, err := db.CreateSession(user)
+		//	if err != nil { 
+		//		log.Println("Login: ", err)
+		//	}
+		//	cookie := http.Cookie { 
+		//		Name: "session_cookie",
+		//		Value: session.UUID,
+		//		HttpOnly : true, 
+		//	}
+		//	http.SetCookie(w, &cookie)
+			http.Redirect(w, r, "/", http.StatusFound)
+		}
 	}
 }
 
@@ -39,7 +62,12 @@ func SignUp(
 		pass := r.FormValue("password")
 		email := r.FormValue("email")
 	
-		db.CreateUser(name, pass, email) 
+		err := db.CreateUser(name, pass, email) 
+		if err != nil { 
+			log.Println("SignUp: ", err)
+			generateHTML(w, new(interface{}), "login.layout", "public.navbar", "signup")
+			return 
+		}
 		http.Redirect(w, r, "/login", http.StatusFound) 
 	}
 }
