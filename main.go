@@ -12,6 +12,7 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", fileHandler))
 	http.HandleFunc("/", handler.Home) 
 	http.HandleFunc("/login", handler.Login) 
+	http.HandleFunc("/logout", handler.Logout) 
 	http.HandleFunc("/signup", handler.SignUp) 
 
 	http.ListenAndServe("localhost:6060", nil)
