@@ -14,7 +14,8 @@ func main() {
 	http.HandleFunc("/login", handler.Login) 
 	http.HandleFunc("/logout", handler.Logout) 
 	http.HandleFunc("/signup", handler.SignUp) 
-
+	http.HandleFunc("/thread/create", handler.CreateThread) 
+	
 	http.ListenAndServe("localhost:6060", nil)
 }
 
