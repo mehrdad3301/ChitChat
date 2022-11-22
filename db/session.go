@@ -25,7 +25,7 @@ func CreateSession(user *User) (string, error) {
 	return uuid, nil 
 } 
 
-func ValidSession(uuid string) (bool, error) { 
+func GetSession(uuid string) (*Session, error) {
 
 	queryString:=`
 	select 
@@ -36,14 +36,27 @@ func ValidSession(uuid string) (bool, error) {
 
 	rows, err := db.Query(queryString, uuid)
 	if err != nil { 
-		return false, fmt.Errorf("ValidSessoin: ", err)
+		return nil, fmt.Errorf("GetSession: ", err)
 	}
 	
+	s := Session{}
+
 	defer rows.Close() 
 	if rows.Next() { 
-		return true, nil
+		rows.Scan(&s.Id, &s.UUID, &s.UserId, &s.CreatedAt)	
+		return &s, nil
+	} 
+
+	return nil, fmt.Errorf("GetSession: No rows")
+}
+
+func ValidSession(uuid string) (bool, error) { 
+
+	_, err := GetSession(uuid)
+	if err != nil { 
+		return false, fmt.Errorf("ValidSession: ", err)
 	}
-	return false, nil
+	return true, nil 
 }
 
 func DeleteSession(uuid string) (error) { 
