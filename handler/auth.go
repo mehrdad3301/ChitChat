@@ -28,16 +28,16 @@ func Login(
 			log.Println("Login: ", "wrong password")
 		} else { 
 
-		//	session, err := db.CreateSession(user)
-		//	if err != nil { 
-		//		log.Println("Login: ", err)
-		//	}
-		//	cookie := http.Cookie { 
-		//		Name: "session_cookie",
-		//		Value: session.UUID,
-		//		HttpOnly : true, 
-		//	}
-		//	http.SetCookie(w, &cookie)
+			uuid, err := db.CreateSession(user)
+			if err != nil { 
+				log.Println("Login: ", err)
+			}
+			cookie := http.Cookie { 
+				Name: "session_cookie",
+				Value: uuid, 
+				HttpOnly : true, 
+			}
+			http.SetCookie(w, &cookie)
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
 	}
