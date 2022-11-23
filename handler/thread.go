@@ -21,8 +21,15 @@ func CreateThread(
 		http.Redirect(w, r, "/", http.StatusFound)
 		return 
 	}
+
+	user, err := getCurrUser(session)		
+	if err != nil { 
+		fmt.Println("CreateThread: ", err)
+		http.Redirect(w, r, "/", http.StatusFound)
+		return 
+	}
 	
-	err = db.CreateThread(topic, session.UserId)
+	err = user.CreateThread(topic)
 	if err != nil { 
 		fmt.Println("CreateThread: ", err)
 	}
@@ -43,7 +50,7 @@ func NewThread(
 		return 
 	}
 
-	generateHTML(w, new(interface{}), "layout", "private.navbar", "new.thread")
+	generateHTML(w, nil, "layout", "private.navbar", "new.thread")
 }
 
 func ReadThread( 
@@ -87,3 +94,11 @@ func PostThread(
 	}
 }
 
+func getCurrUser(session *db.Session) (*db.User, error) {
+
+	user, err := db.GetUser("id", strconv.Itoa(session.UserId))
+	if err != nil { 
+		return user, fmt.Errorf("getCurrUser: ", err)
+	}
+	return user, err
+}

@@ -13,28 +13,33 @@ func Login(
 	r *http.Request, 
 ) { 
 	if r.Method == "GET" { 
-		generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
+		generateHTML(w, nil, "login.layout", "public.navbar", "login")
 	} else { 
-		r.ParseForm() 
-		pass := r.FormValue("password")
-		email := r.FormValue("email")
-		user, err := db.GetUser("email", email)
-		if err != nil { 
-			generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
-			log.Println("Login: ", err)
-			return 
-		}
-
-		if !db.CheckPassword(user, pass) { 
-			generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
-			log.Println("Login: ", "wrong password")
-		} else { 
-			createSession(w, user)
-			http.Redirect(w, r, "/", http.StatusFound)
-		}
+		authenticat(w, r)
 	}
 }
 
+func authenticat(
+	w http.ResponseWriter, 
+	r *http.Request, 
+) { 
+	r.ParseForm() 
+	pass := r.FormValue("password")
+	email := r.FormValue("email")
+	user, err := db.GetUser("email", email)
+	if err != nil { 
+		generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
+		log.Println("Login: ", err)
+		return 
+	}
+	if !db.CheckPassword(user, pass) { 
+		generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
+		log.Println("Login: ", "wrong password")
+	} else { 
+		createSession(w, user)
+		http.Redirect(w, r, "/", http.StatusFound)
+	}
+}
 func Logout( 
 	w http.ResponseWriter, 
 	r *http.Request, 
@@ -71,7 +76,7 @@ func createAccount(
 	err := db.CreateUser(name, pass, email) 
 	if err != nil { 
 		log.Println("SignUp: ", err)
-		generateHTML(w, new(interface{}), "login.layout", "public.navbar", "signup")
+		generateHTML(w, nil, "login.layout", "public.navbar", "signup")
 		return 
 	}
 	http.Redirect(w, r, "/login", http.StatusFound) 
@@ -79,7 +84,7 @@ func createAccount(
 
 func createSession(w http.ResponseWriter, user *db.User) { 
 
-	uuid, err := db.CreateSession(user)
+	uuid, err := user.CreateSession()
 	if err != nil { 
 		log.Println("Login: ", err)
 	}

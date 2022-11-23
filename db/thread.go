@@ -6,14 +6,14 @@ import (
 ) 
 
 
-func CreateThread(topic string, userId int) (error) {
+func (user *User) CreateThread(topic string) (error) {
 
 	queryString := `
 	insert into 	
 		threads(topic, user_id, created_at)
 	values(?, ?, ?)` 
 
-	_, err := db.Exec(queryString, topic, userId, getTime())
+	_, err := db.Exec(queryString, topic, user.Id, getTime())
 	if err != nil { 
 		return fmt.Errorf("CreateThread: ", err)
 	}
@@ -129,7 +129,7 @@ func (t *Thread) Posts() ([]Post, error) {
 	return posts, nil
 }
 
-func (t Thread) User() (*User) { 
+func (t *Thread) User() (*User) { 
 
 	user, err := GetUser("id", strconv.Itoa(t.UserId))
 	if err != nil { 

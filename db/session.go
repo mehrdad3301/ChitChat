@@ -6,7 +6,7 @@ import (
 )
 
 
-func CreateSession(user *User) (string, error) { 
+func (user *User) CreateSession() (string, error) { 
 
 	queryString := `
 	insert into 
@@ -43,7 +43,6 @@ func GetSession(uuid string) (*Session, error) {
 	defer rows.Close() 
 	if rows.Next() { 
 		rows.Scan(&s.Id, &s.UUID, &s.Email, &s.UserId, &s.CreatedAt)	
-		fmt.Println("_________", s)
 		return &s, nil
 	} 
 	
