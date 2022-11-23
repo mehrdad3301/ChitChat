@@ -3,6 +3,7 @@ package db
 import ( 
 
 	"log"
+	"time"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 ) 
@@ -18,3 +19,6 @@ func init() {
 	db = d 
 } 
 
+func getTime() { 
+	time.Now().Format(time.ANSIC))
+}

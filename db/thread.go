@@ -2,7 +2,6 @@ package db
 
 import ( 
 	"fmt"
-	"time"
 	"strconv"
 ) 
 
@@ -14,8 +13,7 @@ func CreateThread(topic string, userId int) (error) {
 		threads(topic, user_id, created_at)
 	values(?, ?, ?)` 
 
-	_, err := db.Exec(queryString, topic, userId, 
-					time.Now().Format(time.ANSIC))
+	_, err := db.Exec(queryString, topic, userId, getTime())
 	if err != nil { 
 		return fmt.Errorf("CreateThread: ", err)
 	}

@@ -2,7 +2,6 @@ package db
 
 import ( 
 	"fmt"
-	"time"
 	"crypto/sha1"
 	"text/template"
 	"bytes"
@@ -16,7 +15,7 @@ func CreateUser(name, password, email string) (error) {
 	values(?, ?, ?, ?)`
 
 	_, err := db.Exec(queryString, name, email, 
-	encryptPassword(password), time.Now().Format(time.ANSIC))
+	encryptPassword(password), getTime())
 	
 	if err != nil { 
 		return fmt.Errorf("CreateUser: %v", err) 
