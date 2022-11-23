@@ -10,9 +10,9 @@ type Thread struct {
 type Post struct {
 	Id        int
 	Body      string
-	CreatedAt string
 	UserId    int
 	ThreadId  int
+	CreatedAt string
 }
 
 type User struct {
