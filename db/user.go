@@ -24,7 +24,8 @@ func CreateUser(name, password, email string) (error) {
 	return nil 
 }
 
-func GetUser(holder, value string) (*User, error) { 
+func GetUser(holder string, value string) (*User, error) { 
+	
 	queryString := `
 	select 
 		id,
@@ -42,7 +43,7 @@ func GetUser(holder, value string) (*User, error) {
 	
 	rows , err := db.Query(query.String(), value)
 	if err != nil { 
-		return nil, fmt.Errorf("getUser: %v", err) 
+		return nil, fmt.Errorf("GetUser: %v", err) 
 	}
 
 	defer rows.Close()
@@ -52,12 +53,12 @@ func GetUser(holder, value string) (*User, error) {
 		err = rows.Scan(&user.Id, &user.UserName, &user.Email, 
 						&user.Password, &user.CreatedAt)	
 		if err != nil { 
-			return nil, fmt.Errorf("getUser: %v", err) 
+			return nil, fmt.Errorf("GetUser: %v", err) 
 		}
 
 		return &user, nil
 	}  
-		return nil, fmt.Errorf("getUser: %v", err) 
+	return nil, fmt.Errorf("GetUser: %v", err) 
 }
 
 func CheckPassword(user *User, password string) (bool) { 
