@@ -29,17 +29,7 @@ func Login(
 			generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
 			log.Println("Login: ", "wrong password")
 		} else { 
-
-			uuid, err := db.CreateSession(user)
-			if err != nil { 
-				log.Println("Login: ", err)
-			}
-			cookie := http.Cookie { 
-				Name: "session_cookie",
-				Value: uuid, 
-				HttpOnly : true, 
-			}
-			http.SetCookie(w, &cookie)
+			createSession(w, user)
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
 	}
@@ -65,6 +55,14 @@ func SignUp(
 	if r.Method == "GET" { 
 		generateHTML(w, new(interface{}), "login.layout", "public.navbar", "signup")
 	} else { 
+		postSignUp(w, r)
+	}
+}
+
+func postSignUp( 
+	w http.ResponseWriter, 
+	r *http.Request, 
+) { 
 		r.ParseForm() 
 		name := r.FormValue("name") 
 		pass := r.FormValue("password")
@@ -77,7 +75,20 @@ func SignUp(
 			return 
 		}
 		http.Redirect(w, r, "/login", http.StatusFound) 
-	}
+}
+
+func createSession(w http.ResponseWriter, user *User) { 
+
+			uuid, err := db.CreateSession(user)
+			if err != nil { 
+				log.Println("Login: ", err)
+			}
+			cookie := http.Cookie { 
+				Name: "session_cookie",
+				Value: uuid, 
+				HttpOnly : true, 
+			}
+			http.SetCookie(w, &cookie)
 }
 
 func checkSession(r *http.Request) (bool, error) { 
