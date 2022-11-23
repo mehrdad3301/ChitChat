@@ -3,6 +3,8 @@ package db
 import ( 
 	"fmt"
 	"strconv"
+	"html/template"
+	md "github.com/shurcooL/github_flavored_markdown"
 ) 
 
 
@@ -66,13 +68,14 @@ func GetThreads() ([]Thread, error) {
 	
 	defer rows.Close()
 	for rows.Next() {
-		conv := Thread{}
-		err = rows.Scan(&conv.Id, &conv.Topic,
-						&conv.UserId, &conv.CreatedAt) 
+		t := Thread{}
+		err = rows.Scan(&t.Id, &t.Topic,
+						&t.UserId, &t.CreatedAt) 
 		if err != nil {
 			return nil, fmt.Errorf("Threads: ", err)
 		}
-		threads = append(threads, conv)
+		t.TopicHTML = renderMarkdown(t.Topic)
+		threads = append(threads, t)
 	}
 	return threads, nil
 }
@@ -99,6 +102,7 @@ func GetThread(id string) (*Thread, error) {
 		if err != nil {
 			return nil, fmt.Errorf("Thread: ", err)
 		}
+		thread.TopicHTML = renderMarkdown(thread.Topic)
 	}
 	return &thread, nil
 }
@@ -124,6 +128,7 @@ func (t *Thread) Posts() ([]Post, error) {
 		if err != nil { 
 			return nil, fmt.Errorf("Posts: ", err)
 		}
+		p.BodyHTML = renderMarkdown(p.Body)
 		posts = append(posts, p)
 	}
 	return posts, nil
@@ -138,3 +143,7 @@ func (t *Thread) User() (*User) {
 	return user 
 }
 
+
+func renderMarkdown(body string) template.HTML { 
+	return template.HTML(md.Markdown([]byte(body)))
+}

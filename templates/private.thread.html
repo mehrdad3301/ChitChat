@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <span class="lead"> <i class="fa fa-comment-o"></i> {{ .Topic }}</span>
+    <span class="lead"> <i class="fa fa-comment-o"></i> {{ .TopicHTML }}</span>
     <div class="pull-right">
       Started by {{ .User.UserName }} - {{ .CreatedAt }}
     </div>
@@ -11,7 +11,7 @@
   
   {{ range .Posts }}
   <div class="panel-body">
-    <span class="lead"> <i class="fa fa-comment"></i> {{ .Body }}</span>
+    <span class="lead"> <i class="fa fa-comment"></i> {{ .BodyHTML }}</span>
     <div class="pull-right">
       {{ .User.UserName }} - {{ .CreatedAt }}
     </div>    

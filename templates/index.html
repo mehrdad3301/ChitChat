@@ -6,7 +6,7 @@
 {{ range . }}
   <div class="panel panel-default">
     <div class="panel-heading">
-      <span class="lead"> <i class="fa fa-comment-o"></i> {{ .Topic }}</span>
+      <span class="lead"> <i class="fa fa-comment-o"></i> {{ .TopicHTML  }}</span>
     </div>
     <div class="panel-body">
       Started by {{ .User.UserName }} - {{ .CreatedAt }} - {{ .NumReplies }} posts.
