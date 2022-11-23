@@ -14,6 +14,7 @@ func main() {
 	http.HandleFunc("/login", handler.Login) 
 	http.HandleFunc("/logout", handler.Logout) 
 	http.HandleFunc("/signup", handler.SignUp) 
+	http.HandleFunc("/thread/new", handler.NewThread) 
 	http.HandleFunc("/thread/create", handler.CreateThread) 
 	http.HandleFunc("/thread/read", handler.ReadThread) 
 	http.HandleFunc("/thread/post", handler.PostThread) 
