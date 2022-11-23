@@ -43,7 +43,8 @@ func GetSession(uuid string) (*Session, error) {
 
 	defer rows.Close() 
 	if rows.Next() { 
-		rows.Scan(&s.Id, &s.UUID, &s.UserId, &s.Email, &s.CreatedAt)	
+		rows.Scan(&s.Id, &s.UUID, &s.Email, &s.UserId, &s.CreatedAt)	
+		fmt.Println("_________", s)
 		return &s, nil
 	} 
 	
