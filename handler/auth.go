@@ -77,7 +77,7 @@ func postSignUp(
 		http.Redirect(w, r, "/login", http.StatusFound) 
 }
 
-func createSession(w http.ResponseWriter, user *User) { 
+func createSession(w http.ResponseWriter, user *db.User) { 
 
 			uuid, err := db.CreateSession(user)
 			if err != nil { 
