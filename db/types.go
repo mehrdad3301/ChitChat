@@ -20,13 +20,13 @@ type User struct {
 	UserName  string
 	Password  string
 	Email     string
-	SessionId Session
+	SessionId int 
 	CreatedAt string
 }
 
 type Session struct {
 	Id        int
 	UUID      string
-	UserId    string
+	UserId    int   
 	CreatedAt string
 }
