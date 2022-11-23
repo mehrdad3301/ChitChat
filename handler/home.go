@@ -13,18 +13,16 @@ func Home(
 	r *http.Request, 
 ) { 
 	
-	ok, err := checkSession(r) 
-	if err != nil { 
-		fmt.Println("Home: ", err)
-	}
-	//reading threads
 	threads, err := db.GetThreads() 
 	if err != nil { 
 		fmt.Println("Home: ", err)
 	}
-	//reading session if exists 
-	//executing templates 
 	
+	ok, err := checkSession(r) 
+	if err != nil { 
+		fmt.Println("Home: ", err)
+	}
+
 	if ok { 
 		generateHTML(w, threads, "layout", "private.navbar", "index")
 	} else {	
