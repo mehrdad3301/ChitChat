@@ -22,6 +22,7 @@ func Login(
 		if err != nil { 
 			generateHTML(w, new(interface{}), "login.layout", "public.navbar", "login")
 			log.Println("Login: ", err)
+			return 
 		}
 
 		if !db.CheckPassword(user, pass) { 
