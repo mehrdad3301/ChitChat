@@ -103,6 +103,34 @@ func GetThread(id string) (*Thread, error) {
 	return &thread, nil
 }
 
+func (t *Thread) Posts() ([]Post, error) {
+
+	query := `
+	select * 
+	from posts 
+	where thread_id=?`
+	
+	rows, err := db.Query(query, t.Id) 
+	if err != nil { 
+		return nil, fmt.Errorf("Posts: ", err)
+	}
+
+	var posts []Post
+
+	defer rows.Close()
+	for rows.Next() { 
+		var p Post 
+		err =rows.Scan(&p.Id, &p.Body, &p.UserId, &p.ThreadId, &p.CreatedAt) 
+		if err != nil { 
+			return nil, fmt.Errorf("Posts: ", err)
+		}
+		fmt.Println(p)
+		posts = append(posts, p)
+	}
+	fmt.Println("xx")
+	return posts, nil
+}
+
 func (t Thread) User() (*User) { 
 
 	user, err := GetUser("id", strconv.Itoa(t.UserId))
