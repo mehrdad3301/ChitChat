@@ -16,7 +16,7 @@ func CreateUser(name, password, email string) (error) {
 	values(?, ?, ?, ?)`
 
 	_, err := db.Exec(queryString, name, email, 
-	encryptPassword(password), time.Now().Format(time.UnixDate))
+	encryptPassword(password), time.Now().Format(time.ANSIC))
 	
 	if err != nil { 
 		return fmt.Errorf("CreateUser: %v", err) 

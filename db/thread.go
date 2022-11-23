@@ -15,7 +15,7 @@ func CreateThread(topic string, userId int) (error) {
 	values(?, ?, ?)` 
 
 	_, err := db.Exec(queryString, topic, userId, 
-					time.Now().Format(time.UnixDate))
+					time.Now().Format(time.ANSIC))
 	if err != nil { 
 		return fmt.Errorf("CreateThread: ", err)
 	}
