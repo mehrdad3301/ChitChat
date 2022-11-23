@@ -77,6 +77,32 @@ func GetThreads() ([]Thread, error) {
 	return threads, nil
 }
 
+func GetThread(id string) (*Thread, error) { 
+	query := `
+	select 
+		* 
+	from 
+		threads 
+	where id=?`
+
+	rows, err := db.Query(query, id)
+	if err != nil {
+		return nil, fmt.Errorf("Thread: ", err)
+	}
+	
+	var thread Thread 	
+
+	defer rows.Close()
+	for rows.Next() {
+		err = rows.Scan(&thread.Id, &thread.Topic,
+						&thread.UserId, &thread.CreatedAt) 
+		if err != nil {
+			return nil, fmt.Errorf("Thread: ", err)
+		}
+	}
+	return &thread, nil
+}
+
 func (t Thread) User() (*User) { 
 
 	user, err := GetUser("id", strconv.Itoa(t.UserId))
