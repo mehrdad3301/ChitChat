@@ -124,10 +124,8 @@ func (t *Thread) Posts() ([]Post, error) {
 		if err != nil { 
 			return nil, fmt.Errorf("Posts: ", err)
 		}
-		fmt.Println(p)
 		posts = append(posts, p)
 	}
-	fmt.Println("xx")
 	return posts, nil
 }
 
