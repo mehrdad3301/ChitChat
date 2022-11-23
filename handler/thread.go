@@ -35,6 +35,9 @@ func CreateThread(
 		} 
 
 		session, err := db.GetSession(cookie.Value)
+		if err != nil { 
+			fmt.Println("CreateThread: ", err)
+		}
 	
 		err = db.CreateThread(topic, session.UserId)
 		if err != nil { 
