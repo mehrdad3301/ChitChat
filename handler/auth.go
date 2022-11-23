@@ -109,3 +109,13 @@ func deleteSession(r *http.Request) (error) {
 	err = db.DeleteSession(cookie.Value)
 	return  err 
 }
+
+func getCurrSession(r *http.Request) (*db.Session, error) { 
+
+		cookie, err := r.Cookie("session_cookie") 
+		if err != nil { 
+			return nil, err
+		} 
+		session, err := db.GetSession(cookie.Value)
+		return session, err 
+}
