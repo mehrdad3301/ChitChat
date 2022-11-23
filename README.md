@@ -1,5 +1,5 @@
 # ChitChat
-
+<center> <img src="img/login.png">  </center>
 ChitChat is a simple chat forum. Users can start threads and comment on other threads.  
 Internally multiplexer redirects request to handlers. Handlers 
 connect to database and implement the needed logic to respond to the request.  
@@ -10,7 +10,6 @@ ChitChat uses Markdown to render text.
 - SQLite.
 ### Installation
 Clone the repository and run `./install.sh`. 
-### Preview 
 
 ### Acknowledgement
 This project started as an exercise when I was reading `Go web programming` by manning publication. 
