@@ -1,5 +1,4 @@
-# ChitChat
-<center> <img src="img/login.png">  </center>
+<p align="center"> <img src="img/signin.png">  </p>
 ChitChat is a simple chat forum. Users can start threads and comment on other threads.  
 Internally multiplexer redirects request to handlers. Handlers 
 connect to database and implement the needed logic to respond to the request.  
