@@ -55,40 +55,40 @@ func SignUp(
 	if r.Method == "GET" { 
 		generateHTML(w, new(interface{}), "login.layout", "public.navbar", "signup")
 	} else { 
-		postSignUp(w, r)
+		createAccount(w, r)
 	}
 }
 
-func postSignUp( 
+func createAccount( 
 	w http.ResponseWriter, 
 	r *http.Request, 
 ) { 
-		r.ParseForm() 
-		name := r.FormValue("name") 
-		pass := r.FormValue("password")
-		email := r.FormValue("email")
-	
-		err := db.CreateUser(name, pass, email) 
-		if err != nil { 
-			log.Println("SignUp: ", err)
-			generateHTML(w, new(interface{}), "login.layout", "public.navbar", "signup")
-			return 
-		}
-		http.Redirect(w, r, "/login", http.StatusFound) 
+	r.ParseForm() 
+	name := r.FormValue("name") 
+	pass := r.FormValue("password")
+	email := r.FormValue("email")
+
+	err := db.CreateUser(name, pass, email) 
+	if err != nil { 
+		log.Println("SignUp: ", err)
+		generateHTML(w, new(interface{}), "login.layout", "public.navbar", "signup")
+		return 
+	}
+	http.Redirect(w, r, "/login", http.StatusFound) 
 }
 
 func createSession(w http.ResponseWriter, user *db.User) { 
 
-			uuid, err := db.CreateSession(user)
-			if err != nil { 
-				log.Println("Login: ", err)
-			}
-			cookie := http.Cookie { 
-				Name: "session_cookie",
-				Value: uuid, 
-				HttpOnly : true, 
-			}
-			http.SetCookie(w, &cookie)
+	uuid, err := db.CreateSession(user)
+	if err != nil { 
+		log.Println("Login: ", err)
+	}
+	cookie := http.Cookie { 
+		Name: "session_cookie",
+		Value: uuid, 
+		HttpOnly : true, 
+	}
+	http.SetCookie(w, &cookie)
 }
 
 func checkSession(r *http.Request) (bool, error) { 
