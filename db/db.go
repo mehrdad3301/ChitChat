@@ -19,6 +19,6 @@ func init() {
 	db = d 
 } 
 
-func getTime() { 
-	time.Now().Format(time.ANSIC))
+func getTime() (string) { 
+	return time.Now().Format(time.ANSIC)
 }
