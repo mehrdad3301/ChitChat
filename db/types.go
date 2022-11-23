@@ -27,6 +27,7 @@ type User struct {
 type Session struct {
 	Id        int
 	UUID      string
+	Email     string
 	UserId    int   
 	CreatedAt string
 }
