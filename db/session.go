@@ -43,10 +43,10 @@ func GetSession(uuid string) (*Session, error) {
 
 	defer rows.Close() 
 	if rows.Next() { 
-		rows.Scan(&s.Id, &s.UUID, &s.UserId, &s.CreatedAt)	
+		rows.Scan(&s.Id, &s.UUID, &s.UserId, &s.Email, &s.CreatedAt)	
 		return &s, nil
 	} 
-
+	
 	return nil, fmt.Errorf("GetSession: No rows")
 }
 
