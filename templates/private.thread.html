@@ -4,7 +4,7 @@
   <div class="panel-heading">
     <span class="lead"> <i class="fa fa-comment-o"></i> {{ .Topic }}</span>
     <div class="pull-right">
-      Started by {{ .User.Name }} - {{ .CreatedAtDate }}
+      Started by {{ .User.UserName }} - {{ .CreatedAt }}
     </div>
 
   </div>
@@ -13,7 +13,7 @@
   <div class="panel-body">
     <span class="lead"> <i class="fa fa-comment"></i> {{ .Body }}</span>
     <div class="pull-right">
-      {{ .User.Name }} - {{ .CreatedAtDate }}
+      {{ .User.UserName }} - {{ .CreatedAt }}
     </div>    
   </div>
   {{ end }}    
@@ -23,10 +23,10 @@
 
   <div class="panel panel-info">
     <div class="panel-body">
-     <form role="form" action="/thread/post" method="post">
+     <form role="form" action="/thread/read" method="post">
        <div class="form-group">
          <textarea class="form-control" name="body" id="body" placeholder="Write your reply here" rows="3"></textarea>
-         <input type="hidden" name="uuid" value="{{ .Uuid }}">
+         <input type="hidden" name="id" value="{{ .Id }}">
          <br/>
          <button class="btn btn-primary pull-right" type="submit">Reply</button>
        </div>
