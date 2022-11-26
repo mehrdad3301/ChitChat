@@ -12,11 +12,11 @@ var db *sql.DB
 
 func init() { 
 
-	d, err := sql.Open("sqlite3", "./database.db") 
+	var err error 
+	db, err = sql.Open("sqlite3", "./database.db") 
 	if err != nil { 
 		log.Fatal("db: init: ", err) 
 	}
-	db = d 
 } 
 
 func getTime() (string) { 
